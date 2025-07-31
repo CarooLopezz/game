@@ -1,18 +1,25 @@
+
 import pygame
 import random
 from config import WIDHT, HEIGHT, FPS, BLACK
 from classes.cannon import Cannon
 from classes.plane import Plane
 from classes.bullet import Bullet
+# parte de Lara Magallanes
+from logic.score import Score
+def main():
+
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
+
 # Crear jugador y listas
 player = Cannon()  # Crea el cañón del jugador
 planes = []  # Lista que guarda los aviones enemigos
 bullets = []  # Lista que guarda las balas disparadas
+puntaje = Score()  # Crear instancia de puntaje
 planes = pygame.sprite.Group()
 planes.add(Plane(100, -50)) 
 running = True  # Variable para controlar si el juego sigue en ejecución
@@ -64,9 +71,13 @@ while running:
                     planes.remove(plane)
                 if bullet in bullets:
                     bullets.remove(bullet)
+                    puntaje.aumentar(10)  # Aumentar puntaje al destruir avión
 
     # Dibujar jugador (el cañón)
     player.draw(screen)
+
+    # Mostrar puntaje en consola (puedes adaptarlo para mostrar en pantalla)
+    print("Puntaje actual:", puntaje.obtener())
 
     pygame.display.flip()  # Actualiza la pantalla
     clock.tick(FPS)  # Controla los FPS
