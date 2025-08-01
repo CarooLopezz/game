@@ -1,25 +1,22 @@
+import os
 import pygame
-import random
 
-class Plane:
-    def __init__(self):
-        self.image = pygame.image.load("assets/plane.png")
+class Plane(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        base_path = os.path.dirname(__file__)  # carpeta donde está plane.py (game\classes)
+        image_path = os.path.join(base_path, "..", "assets", "images", "planes_5.png")
+        image_path = os.path.abspath(image_path)  # ruta absoluta segura
+        self.image = pygame.image.load(image_path)
         self.rect = self.image.get_rect()
-        self.rect.x = random.randint(0, 800 - self.rect.width)
-        self.rect.y = -self.rect.height
-        self.speed = random.randint(2, 5)
-
-    @property
-    def y(self):
-        return self.rect.y
-
-    def update(self):
-        self.rect.y += self.speed
+        self.rect.topleft = (x, y)
 
     def draw(self, screen):
+        # Dibuja el avión en la pantalla
         screen.blit(self.image, self.rect)
 
-import pygame
-import random
-import os
+    def move(self, dx, dy):
+        # Mueve el avión por la pantalla
+        self.rect.x += dx
+        self.rect.y += dy
 
