@@ -1,13 +1,37 @@
 import pygame
 import random
-from config import WIDHT, HEIGHT, FPS, BLACK
+from config import WIDTH, HEIGHT, FPS, BLACK
 from classes.cannon import Cannon
 from classes.plane import Plane
 from classes.bullet import Bullet
+import sys
+# pantalla de inicio
+def show_start_screen(screen, width, height):
+    pygame.init()
+    
+    font = pygame.font.SysFont("Arial", 48)
+    title_text = font.render("Anti-Aircraft", True, (255, 255, 255))
+    press_key_text = pygame.font.SysFont("Arial", 24).render("Presiona para empezar", True, (255, 255, 255))
+    
+    screen.fill((0, 0, 0))
+    screen.blit(title_text, ((width - title_text.get_width()) // 2, height // 3))
+    screen.blit(press_key_text, ((width - press_key_text.get_width()) // 2, height // 2))
+    pygame.display.flip()
+
+    waiting = True
+    while waiting:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                waiting = False
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
+
+show_start_screen(screen, WIDTH, HEIGHT) #mostrar pantalla de incio
 
 # Crear jugador y listas
 player = Cannon()  # Crea el cañón del jugador
