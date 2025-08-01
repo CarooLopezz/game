@@ -45,7 +45,7 @@ def main():
 
         # Generar aviones aleatorios
         if random.randint(1, 40) == 1:
-            planes.add(Plane())
+            planes.add(Plane(100, 100))  # o la posición inicial que vos quieras
 
         # Actualizar balas
         for bullet in bullets[:]:
@@ -59,7 +59,7 @@ def main():
             plane.update()
             plane.draw(screen)
 
-            if plane.y > HEIGHT:
+            if plane.rect.y > HEIGHT:
                 running = False
                 game_over = True
 

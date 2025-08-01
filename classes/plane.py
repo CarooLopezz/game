@@ -1,44 +1,22 @@
-import pygame
-import random
 import os
+import pygame
 
-<<<<<<< HEAD
-class Plane:
-    def __init__(self):
-        self.image = pygame.image.load("assets/planes_5.png")
-=======
 class Plane(pygame.sprite.Sprite):
-    def __init__(self, x=None, y=None):
+    def __init__(self, x, y):
         super().__init__()
-        current_path = os.path.dirname(__file__)
-        image_path = os.path.join(current_path, "..", "assets", "images", "plane.png")
-        try:
-            self.image = pygame.image.load(image_path).convert_alpha()
-        except Exception as e:
-            print(f"Error cargando plane.png: {e}")
-            self.image = pygame.Surface((60, 30))
-            self.image.fill((255, 0, 0))
->>>>>>> Iara
+        base_path = os.path.dirname(__file__)  # carpeta donde está plane.py (game\classes)
+        image_path = os.path.join(base_path, "..", "assets", "images", "planes_5.png")
+        image_path = os.path.abspath(image_path)  # ruta absoluta segura
+        self.image = pygame.image.load(image_path)
         self.rect = self.image.get_rect()
-        
-        if x is None:
-            self.rect.x = random.randint(0, 800 - self.rect.width)
-        else:
-            self.rect.x = x
-            
-        if y is None:
-            self.rect.y = -self.rect.height
-        else:
-            self.rect.y = y
-            
-        self.speed = random.randint(2, 5)
-
-    @property
-    def y(self):
-        return self.rect.y
-
-    def update(self):
-        self.rect.y += self.speed
+        self.rect.topleft = (x, y)
 
     def draw(self, screen):
+        # Dibuja el avión en la pantalla
         screen.blit(self.image, self.rect)
+
+    def move(self, dx, dy):
+        # Mueve el avión por la pantalla
+        self.rect.x += dx
+        self.rect.y += dy
+
