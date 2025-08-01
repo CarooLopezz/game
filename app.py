@@ -10,14 +10,16 @@ from classes.plane import Plane
 from classes.bullet import Bullet
 # parte de Lara Magallanes
 from logic.score import Score
-
+from logic.levels import LevelSystem
+from logic.lives import Lives 
 
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()
-
+      #Creamos una fuente para mostrar texto (nivel)
+    font = pygame.font.Font(None, 36)
     # Mostrar pantalla de inicio (espera tecla)
     show_start_screen(screen, WIDTH, HEIGHT)
 
@@ -25,7 +27,8 @@ def main():
     player = Cannon()
     planes = pygame.sprite.Group()
     bullets = []
-
+    nivel = LevelSystem()
+    vidas = Lives()  #Creamos instancia de vidas
     running = True
     game_over = False
 
@@ -65,18 +68,26 @@ def main():
             plane.draw(screen)
 
             if plane.rect.y > HEIGHT:
-                running = False
-                game_over = True
+                planes.remove(plane)
+                vidas.lose_life()
 
+                # 5. Si se queda sin vidas, termina el juego
+                if vidas.is_game_over():
+                    running = False
+                    game_over = True
             for bullet in bullets:
                 if plane.rect.colliderect(bullet.rect):
                     if plane in planes:
                         planes.remove(plane)
                     if bullet in bullets:
                         bullets.remove(bullet)
-
+                    nivel.enemy_killed()
+        
         player.draw(screen)
-
+        #Mostrar nivel en pantalla
+        nivel_texto = font.render(f"Nivel: {nivel.level}", True, (255, 255, 255))
+        screen.blit(nivel_texto, (10, 50))
+        vidas.draw(screen)  #  Mostrar vidas en pantalla
         pygame.display.flip()
         clock.tick(FPS)
 
