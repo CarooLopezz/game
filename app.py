@@ -6,7 +6,7 @@ from classes.plane import Plane
 from classes.bullet import Bullet
 
 pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((WIDHT, HEIGHT))
 clock = pygame.time.Clock()
 
 # Crear jugador y listas

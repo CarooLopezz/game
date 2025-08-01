@@ -3,7 +3,7 @@ import random
 
 class Plane:
     def __init__(self):
-        self.image = pygame.image.load("assets/plane.png")
+        self.image = pygame.image.load("assets/planes_5.png")
         self.rect = self.image.get_rect()
         self.rect.x = random.randint(0, 800 - self.rect.width)
         self.rect.y = -self.rect.height
